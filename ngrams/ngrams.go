@@ -14,21 +14,42 @@ type NGrams struct {
 	Grams map[string]*NGram
 }
 
+type NGramList []*NGram
+
 func (ngram *NGram) inc(Count int) {
 	ngram.Count += Count
 }
+
 func (ngram *NGram) String() string {
 	return strings.Join(ngram.Tokens, " ") + " - " + strconv.Itoa(ngram.Count)
 }
+
 func NewNGrams(count int) *NGrams {
 	ngrams := &NGrams{N: count, Grams: make(map[string]*NGram)}
 	ngrams.N = count
 	return ngrams
 }
+
 func NewNGram(Token string, Count int) *NGram {
 	Tokens := strings.Split(Token, ";")
 	return &NGram{Tokens: Tokens, Count: Count}
 }
+
+// func (ngrams *NGrams) Less(i, j int) bool {
+// 	return ngrams.
+// }
+
+func (ngrams *NGrams) AsList() NGramList {
+	ngramlist := NGramList{}
+	for _, value := range ngrams.Grams {
+		ngramlist = append(ngramlist, value)
+	}
+	return ngramlist
+}
+
+func (nglist NGramList) Len() int           { return len(nglist) }
+func (nglist NGramList) Less(i, j int) bool { return nglist[i].Count < nglist[j].Count }
+func (nglist NGramList) Swap(i, j int)      { nglist[i], nglist[j] = nglist[j], nglist[i] }
 
 func (ngrams *NGrams) FromString(String string, delimeter string) {
 	tokens := strings.Split(String, delimeter)
