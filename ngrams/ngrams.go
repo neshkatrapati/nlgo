@@ -35,16 +35,36 @@ func NewNGram(Token string, Count int) *NGram {
 	return &NGram{Tokens: Tokens, Count: Count}
 }
 
-// func (ngrams *NGrams) Less(i, j int) bool {
-// 	return ngrams.
-// }
-
 func (ngrams *NGrams) AsList() NGramList {
 	ngramlist := NGramList{}
 	for _, value := range ngrams.Grams {
 		ngramlist = append(ngramlist, value)
 	}
 	return ngramlist
+}
+
+func (ngrams *NGrams) Min() *NGram {
+	var min int = 10000
+	var ng *NGram
+	for _, ngram := range ngrams.Grams {
+		if min > ngram.Count {
+			min = ngram.Count
+			ng = ngram
+		}
+	}
+	return ng
+}
+
+func (ngrams *NGrams) Max() *NGram {
+	var max int = -1
+	var ng *NGram
+	for _, ngram := range ngrams.Grams {
+		if max < ngram.Count {
+			max = ngram.Count
+			ng = ngram
+		}
+	}
+	return ng
 }
 
 func (nglist NGramList) Len() int           { return len(nglist) }
