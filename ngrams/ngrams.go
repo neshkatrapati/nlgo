@@ -86,3 +86,5 @@ func (ngrams *NGrams) FromString(String string, delimeter string) {
 		}
 	}
 }
+
+//func ()
