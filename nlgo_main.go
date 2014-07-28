@@ -18,13 +18,17 @@ func Wait() {
 func main() {
 
 	var NS string = os.Args[1] // Give N as command line arg
+	var String string = "I am sam sam I am I do not eat ham\nHello I am Ganesh"
+	doc :=  common.NewDocument(String)
+
 	N, _ := strconv.Atoi(NS)
 	ng := ngrams.NewNGrams(N)
-	var String string = "I am sam sam I am I do not eat ham"
 
 	fmt.Println("String Given:", String)
-	ng.FromString(String, " ")
-
+	for _, sentence := range doc.Sentences {
+		ng.FromString(sentence)	
+	}
+	
 	for _, ngram := range ng.Grams {
 		fmt.Println(ngram)
 	}

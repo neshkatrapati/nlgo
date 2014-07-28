@@ -3,6 +3,7 @@ package ngrams
 import (
 	"strconv"
 	"strings"
+	"github.com/neshkatrapati/nlgo/common"
 )
 
 type NGram struct {
@@ -15,6 +16,7 @@ type NGrams struct {
 }
 
 type NGramList []*NGram
+type Sentence common.Sentence
 
 func (ngram *NGram) inc(Count int) {
 	ngram.Count += Count
@@ -71,8 +73,8 @@ func (nglist NGramList) Len() int           { return len(nglist) }
 func (nglist NGramList) Less(i, j int) bool { return nglist[i].Count < nglist[j].Count }
 func (nglist NGramList) Swap(i, j int)      { nglist[i], nglist[j] = nglist[j], nglist[i] }
 
-func (ngrams *NGrams) FromString(String string, delimeter string) {
-	tokens := strings.Split(String, delimeter)
+func (ngrams *NGrams) FromString(sentence *common.Sentence) {
+	tokens := sentence.Tokens
 	for index, _ := range tokens {
 		if index+1 >= ngrams.N {
 			realtoken := strings.Join(tokens[index-(ngrams.N-1):index+1], ";")
